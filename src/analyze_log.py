@@ -5,10 +5,10 @@ from collections import Counter
 def analyze_log(path_to_file):
     restaurant = get_csv(path_to_file)
 
-    result_campaign = f'''{most_request(restaurant)}
-{many_times_request(restaurant)}
-{never_request(restaurant)}
-{never_went_restaurant(restaurant)}'''
+    result_campaign = f'''{most_request(restaurant, 'maria')}
+{many_times_request(restaurant, 'arnaldo', 'hamburguer')}
+{never_request(restaurant, 'joao')}
+{never_went_restaurant(restaurant, 'joao')}'''
 
     return save_in_txt(result_campaign)
 
@@ -27,11 +27,11 @@ def get_csv(path_to_file):
         raise FileNotFoundError(f"Arquivo inexistente: '{path_to_file}'")
 
 
-def most_request(restaurant):
+def most_request(restaurant, name_client):
     foods_request = []
 
     for client, food, day in restaurant:
-        if client == 'maria':
+        if client == name_client:
             foods_request.append(food)
     # retorna as 3 comidas e o n° de quantas vzs foi pedido em uma dict:
     foods = Counter(foods_request)
@@ -39,34 +39,34 @@ def most_request(restaurant):
     return foods.most_common(1)[0][0]
 
 
-def many_times_request(restaurant):
+def many_times_request(restaurant, name_client, food_name):
     count = 0
 
     for client, food, day in restaurant:
-        if client == 'arnaldo' and food == 'hamburguer':
+        if client == name_client and food == food_name:
             count += 1
     return count
 
 
-def never_request(restaurant):
+def never_request(restaurant, name_client):
     all_foods = set()
     joao_foods = set()
 
     for client, food, day in restaurant:
         all_foods.add(food)
-        if client == 'joao':
+        if client == name_client:
             joao_foods.add(food)
 
     return all_foods - joao_foods
 
 
-def never_went_restaurant(restaurant):
+def never_went_restaurant(restaurant, name_client):
     all_days = set()
     day_in_restaurant = set()
 
     for client, food, day in restaurant:
         all_days.add(day)
-        if client == 'joao':
+        if client == name_client:
             day_in_restaurant.add(day)
 
     return all_days - day_in_restaurant
