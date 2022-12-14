@@ -12,6 +12,7 @@ def analyze_log(path_to_file):
 
     return save_in_txt(result_campaign)
 
+
 def get_csv(path_to_file):
     if not path_to_file.endswith(".csv"):
         raise FileNotFoundError(f"Extensão inválida: '{path_to_file}'")
@@ -39,7 +40,7 @@ def most_request(restaurant):
 
 
 def many_times_request(restaurant):
-    count = 0 
+    count = 0
 
     for client, food, day in restaurant:
         if client == 'arnaldo' and food == 'hamburguer':
